@@ -1,66 +1,89 @@
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
-import { useState } from "react";
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow strict-local
+ */
 
+import React, { useState } from 'react';
+import { ScrollView, RefreshControl } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  Linking,
+} from 'react-native';
 
-export default function App() {
+const App = () => {
+  const [items, setItems] = useState([
+    { key: 1, item: 'Item 1' },
+    { key: 2, item: 'Item 2' },
+    { key: 3, item: 'Item 3' },
+    { key: 4, item: 'Item 4' },
+    { key: 5, item: 'Item 5' },
+    { key: 6, item: 'Item 6' },
+    { key: 7, item: 'Item 7' },
+    { key: 8, item: 'Item 8' },
+    { key: 9, item: 'Item 9' },
+    { key: 10, item: 'Item 10' },
 
-  const [value, setvalue] = useState("");
-  const [listNotes, setListNotes] = useState([]);
+  ])
 
-  function onChangeTXT(getEnterText) {
-    setvalue(getEnterText)
+  const [Refreshing, setRefeshing] = useState(false)
+  onRefresh = () => {
 
+    setRefeshing(true);
+    setItems([...items, { key: 11, item: 'Item 4 ' }]);
+    setRefeshing(false);
   }
-  function onPressBNT() {
-
-    setListNotes(currentNotes => [...currentNotes, value])
-  }
-  console.log(listNotes);
   return (
-    <View style={{
-      padding: 60
-    }}>
-      <View style={styles.inputContainer}>
-        <TextInput onChangeText={onChangeTXT} style={styles.inputVien} placeholder="Moi ban nhap" />
-        <Button onPress={onPressBNT} color={'#000'} title="Click" />
-      </View>
+    <ScrollView
+      style={styles.body}
+      refreshControl={
+        <RefreshControl
+          refreshing={Refreshing}
+          onRefresh={onRefresh}
+        />
+      }
 
-      <View style={styles.listContainer}>
-        {
-          listNotes.map((item, index) => <Text style={styles.listItem} key={'item${index}'}>{item}</Text>)
+    >
+      {
+        items.map((item) => {
+          return (
+
+            <View style={styles.item}>
+              <Text style={styles.text}>{item.item}</Text>
+
+            </View>
+          )
         }
 
-      </View>
-    </View>
-  )
-}
+        )
+      }
+    </ScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    flexDirection: 'row',
-    paddingBottom: 30,
-    borderBottomWidth: 1,
-
-  },
-  inputVien: {
-    borderWidth: 1,
-    borderColor: 'Black',
-
+  body: {
     flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#ffffff',
   },
+  item: {
+    margin: 10,
+    backgroundColor: '#4ae1fa',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    color: '#000000',
+    fontSize: 45,
+    fontStyle: 'italic',
+    margin: 10,
+  },
+});
 
-  listContainer: {
-    paddingTop: 30,
-
-  },
-  listItem: {
-    borderRadius: 8,
-    backgroundColor:'blue',
-    borderColor:'green',
-    borderWidth:3,
-    paddingBottom: 20,
-    marginBottom: 20,
-    color: 'white',
-    fontSize: 20,
-  },
-})
+export default App;
