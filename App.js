@@ -7,6 +7,8 @@ import {
   RefreshControl,
   FlatList,
   SectionList,
+  TextInput,
+  onChangeTextInput,
 } from 'react-native';
 
 const App = () => {
@@ -49,67 +51,58 @@ const App = () => {
     setItems([...Items, { name: 'Item 69' }]);
     setRefreshing(false);
   }
-
+const [name,setName] = useState('');
   return (
-    
-    <FlatList
-      keyExtractor={(item, index) => index.toString()}
-      data={Items}
-      renderItem={({ item }) => (
-        <View style={styles.item}>
-          <Text style={styles.text}>{item.name}</Text>
-        </View>
-      )}
-      refreshControl={
-        <RefreshControl
-          refreshing={Refreshing}
-          onRefresh={onRefresh}
-          colors={['#ff00ff']}
-        />
-      }
-    />
+    <View style={styles.body}>
+      <Text style={styles.text}>
 
-    // <ScrollView
-    //   style={styles.body}
-    //   refreshControl={
-    //     <RefreshControl
-    //       refreshing={Refreshing}
-    //       onRefresh={onRefresh}
-    //       colors={['#ff00ff']}
-    //     />
-    //   }
-    // >
-    //   {
-    //     Items.map((object) => {
-    //       return (
-    //         <View style={styles.item} key={object.key}>
-    //           <Text style={styles.text}>{object.item}</Text>
-    //         </View>
-    //       )
-    //     })
-    //   }
-    // </ScrollView>
+        Moi nhap :
+
+      </Text>
+      <TextInput style={styles.input}
+        placeholder='Ho va ten'
+        multiline
+        onChangeText={(value)=>setName(value)}
+        keyboardType='numeric'
+        maxLength={11}
+        editable={false}
+        secureTextEntry
+      >
+        
+      </TextInput>
+      <Text> Ten cua ban la : {name}</Text>
+    </View>
   );
 };
 
-const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#ffffff',
-  },
-  item: {
-    margin: 10,
-    backgroundColor: '#4ae1fa',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    color: '#000000',
-    fontSize: 45,
-    fontStyle: 'italic',
-    margin: 10,
-  },
-});
+const styles = StyleSheet
+  .create({
+    body: {
+      flex: 1,
+      flexDirection: 'column',
+      alignItems: 'center',
+      backgroundColor: '#ffffff',
+    },
+    item: {
+      margin: 10,
+      backgroundColor: '#4ae1fa',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    text: {
+      color: '#000000',
+      fontSize: 45,
+      fontStyle: 'italic',
+      margin: 10,
+    },
+    input: {
+      borderBlockColor: '#000000',
+      borderWidth: 1,
+      width: 200,
+      borderRadius: 5,
+      textAlign: 'center',
+
+    }
+  });
 
 export default App;
